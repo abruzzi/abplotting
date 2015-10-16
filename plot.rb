@@ -18,8 +18,8 @@ class Benchmark
 	end
 end
 
-def load_metadata
-	benchmark = OpenStruct.new(YAML.load_file('meta.yml')['benchmark'])
+def load_metadata(meta)
+	benchmark = OpenStruct.new(YAML.load_file(meta)['benchmark'])
 
 	cases = []
 	commands = []
@@ -49,13 +49,18 @@ def load_metadata
 	})
 end
 
-def generate_benchmark_script
-	value_object = load_metadata()
-	plot_renderer = ERB.new(File.read('plot.erb'))
+def generate_benchmark_script(meta)
+	value_object = load_metadata(meta)
+	plot_renderer = ERB.new(File.read('template/plot.erb'))
 	File.open("plot-script.g", "w").write(plot_renderer.result(value_object.get_binding()))
 
-	script_render = ERB.new(File.read('benchmark.erb'))
+	script_render = ERB.new(File.read('template/benchmark.erb'))
 	File.open("benchmark.sh", "w").write(script_render.result(value_object.get_binding()))
 end
 
-generate_benchmark_script
+if ARGV.first == nil then
+	generate_benchmark_script("meta.yml")
+else
+	generate_benchmark_script(ARGV.first)
+end
+
