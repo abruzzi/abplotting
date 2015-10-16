@@ -1,0 +1,23 @@
+# set terminal postscript
+set terminal postscript eps enhanced color size 8in,8in
+
+# save file to "eps"
+set output "<%= output %>"
+
+# graph title
+set title "<%= title %>"
+
+# nicer aspect ratio for image size
+set size 1,0.7
+
+# y-axis grid
+set grid y
+
+# x-axis label
+set xlabel "request"
+
+# y-axis label
+set ylabel "response time (ms)"
+
+# plot together
+plot <%= cases.join(', ')%>

@@ -1,0 +1,17 @@
+benchmark:
+  description: "Benchmark of WFS with/without cache"
+  number: 1000
+  concurrent: 20
+
+  tests:
+    - name: single mapserver instance
+      description: single mapserver instance
+      url: http://192.168.3.11/cgi-bin/mapserv?map=/data/pg-xian-wfs.map&layer=highways&SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TypeName=highways&SRSNAME=EPSG:4326&MAXFEATURES=10&propertyName=name,highway
+
+    - name: squid with 2 mapserver instances
+      description: squid with 2 mapserver instances
+      url: http://192.168.3.15/cgi-bin/mapserv?map=/data/pg-xian-wfs.map&layer=highways&SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TypeName=highways&SRSNAME=EPSG:4326&MAXFEATURES=10&propertyName=name,highway
+
+    - name: nginx with 2 mapserver instances
+      description: nginx with 2 mapserver instances
+      url: http://192.168.3.15:8080/cgi-bin/mapserv?map=/data/pg-xian-wfs.map&layer=highways&SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TypeName=highways&SRSNAME=EPSG:4326&MAXFEATURES=10&propertyName=name,highway
